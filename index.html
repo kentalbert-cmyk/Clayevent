@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClayEvent.com — Cek Hadiah</title>
+<style>
+:root{--ink:#171717;--cream:#fff8ed;--orange:#ff6b35;--yellow:#ffd166;--blue:#26547c}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--cream);color:var(--ink)}
+.wrap{max-width:920px;margin:auto;padding:28px 20px 60px}.nav{display:flex;justify-content:space-between;align-items:center;font-weight:800}.logo{font-size:24px;letter-spacing:-1px}.badge{background:var(--yellow);padding:8px 12px;border:2px solid var(--ink);border-radius:999px;font-size:12px}
+.hero{margin-top:70px;text-align:center}.hero h1{font-size:clamp(42px,8vw,88px);line-height:.9;margin:0 auto 18px;max-width:760px;letter-spacing:-5px}.hero p{font-size:18px;max-width:500px;margin:0 auto 30px;line-height:1.5}
+.panel{max-width:560px;margin:30px auto 0;background:#fff;border:3px solid var(--ink);border-radius:24px;padding:24px;box-shadow:8px 8px 0 var(--ink)}label{display:block;font-weight:800;margin-bottom:8px}input{width:100%;padding:16px;border:2px solid var(--ink);border-radius:12px;font-size:18px;text-transform:none}button{width:100%;margin-top:14px;padding:16px;border:3px solid var(--ink);border-radius:12px;background:var(--orange);font-size:18px;font-weight:800;cursor:pointer}button:hover{transform:translateY(-2px)}
+.result{display:none;margin-top:22px;padding:20px;border-radius:16px;background:#e8f3ff;border:2px solid var(--blue);text-align:center}.emoji{font-size:64px}.result h2{margin:8px 0;font-size:30px}.result p{margin:6px 0 0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:70px}.card{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:18px}.card strong{font-size:26px}.card span{display:block;font-size:34px;margin:10px 0}.footer{text-align:center;margin-top:60px;font-size:13px;opacity:.65}@media(max-width:650px){.cards{grid-template-columns:1fr}.hero{margin-top:50px}.hero h1{letter-spacing:-3px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="nav"><div class="logo">ClayEvent.com</div><div class="badge">CEK NILAI & HADIAH</div></nav>
+<section class="hero"><h1>Masukkan kode.<br>Dapatkan hadiah.</h1><p>Uji keberuntunganmu di ClayEvent.com. Masukkan kode penilaian untuk melihat hasil dan hadiahmu.</p>
+<div class="panel"><label for="code">Kode kamu</label><input id="code" placeholder="Masukkan kode" autocomplete="off"><button onclick="checkCode()">Cek Sekarang ✨</button><div id="result" class="result"></div></div></section>
+<div class="footer">© 2026 ClayEvent.com · Sistem penilaian dan hadiah</div>
+</div>
+<script>
+function checkCode(){const value=document.getElementById('code').value.trim();const r=document.getElementById('result');
+if(!value){r.innerHTML='<h2>Masukkan kode terlebih dahulu</h2><p>Isi kotak kode untuk melihat hasil.</p>';r.style.display='block';return;}
+let title='Nilai: D-';let emoji='💩';let text='Kamu mendapatkan emote spesial!';
+if(value.toLowerCase()==='qwt-fb5'){title='Nilai: A';emoji='🏆';text='Selamat, kamu mendapatkan nilai terbaik!';}
+else if(value.toLowerCase()==='sdf-4th'){title='Nilai: S+';emoji='⭐';text='Nilai tingkat khusus!';}
+else if(value.toLowerCase()==='sdf-hn7'){title='Nilai: SS+';emoji='🌟';text='Nilai tingkat khusus!';}
+else if(value.toLowerCase()==='sdf-6gd'){title='Nilai: SSS+';emoji='👑';text='Nilai tingkat tertinggi!';}
+else if(value.toLowerCase()==='bcq-scd'){title='Pesan khusus';emoji='📩';text='Kirim kode ini ke Kentalbert188@gmail.com.';}
+else if(value.toLowerCase()==='ash-vpn'){title='Nilai: C';emoji='📋';text='Kasih kode ini: <strong id="secretCode">Ash-Koch</strong> <button class="copy-btn" onclick="copySecret()">Salin kode</button>';}
+r.innerHTML=`<div class="emoji">${emoji}</div><h2>${title}</h2><p>${text}</p>`;r.style.display='block';}
+function copySecret(){navigator.clipboard.writeText('Ash-Koch').then(()=>{const b=document.querySelector('.copy-btn');b.textContent='Tersalin ✓';});}
+</script>
+</body>
+</html>
