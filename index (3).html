@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform Grandboard & Game 🎮</title>
+    <style>
+        :root {
+            --bg-color: #eef2f3;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --primary-color: #3498db;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --shop-color: #ff4757;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        .hidden { display: none !important; }
+        
+        /* Halaman Login */
+        .login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #74ebd5, #9fa8da);
+        }
+        .login-box {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        .login-box input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+            text-align: center;
+        }
+        .login-box button {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        /* Navbar Atas */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .nav-btn {
+            background: #f0f2f5;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .nav-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .shop-btn {
+            background: transparent;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--shop-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+        }
+        .profile-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #7f8c8d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid var(--primary-color);
+        }
+        .menu-dot {
+            font-size: 22px;
+            cursor: pointer;
+            user-select: none;
+            padding: 5px;
+        }
+
+        /* Dropdown Menu Titik Tiga */
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 55px;
+            right: 20px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1001;
+            width: 200px;
+        }
+        .dropdown a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: #333;
+            border-bottom: 1px solid #eee;
+        }
+        .dropdown a:last-child { border-bottom: none; }
+        .dropdown a:hover { background-color: #f5f5f5; }
+
+        /* Konten Utama */
+        .main-container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+        h3 { margin-top: 0; display: flex; align-items: center; gap: 10px; }
+
+        /* Video / Meme Section */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        /* Shop / Marketplace Layout */
+        .shop-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        .item-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            background: #fafafa;
+        }
+        .item-avatar {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        .price-tag {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 0.95em;
+            margin: 8px 0;
+        }
+        .badge-effect {
+            background: #9b59b6;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        /* Grandboard Form & Step Creator */
+        .creator-selects {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        select, input[type="text"], textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        textarea { width: 100%; height: 100px; box-sizing: border-box; resize: vertical; }
+        .btn-action {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .system-badge {
+            background: #e67e22;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Settings CSS */
+        .setting-row {
+            margin: 15px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. HALAMAN LOGIN (SISTEM PASSWORD TERSEMBUNYI) -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-box">
+            <h2>🔑 Akses Masuk Terkunci</h2>
+            <p>Masukkan Kunci Akses Valid untuk Membuka Fitur</p>
+            <input type="password" id="access-password" placeholder="••••••••">
+            <button onclick="checkAccess()">Verifikasi Kunci Akses</button>
+        </div>
+    </div>
+
+    <!-- 2. HALAMAN APLIKASI UTAMA (DASHBOARD) -->
+    <div id="app-screen" class="hidden">
+        
+        <!-- NAVBAR ATAS -->
+        <div class="navbar">
+            <div class="nav-left">
+                <button id="btn-dash" class="nav-btn active" onclick="switchTab('dashboard')">Dashboard</button>
+                <button id="btn-grand" class="nav-btn" onclick="switchTab('grandboard')">Grandboard</button>
+            </div>
+            
+            <div class="nav-right">
+                <!-- Tombol Shop Icon Keranjang Merah 🛒 -->
+                <button class="shop-btn" onclick="switchTab('shop')" title="Marketplace & Customize">🛒</button>
+                <!-- Avatar Profil Kanan Atas -->
+                <div class="profile-btn" id="user-profile" onclick="alert('Menu Profil User Terbuka!')">U</div>
+                <!-- Menu Titik Tiga -->
+                <div class="menu-dot" onclick="toggleDropdown()">•••</div>
+            </div>
+
+            <!-- Dropdown Menu Titik Tiga -->
+            <div class="dropdown" id="action-dropdown">
+                <a href="#" onclick="openMenuSection('hadiah')">🎁 Cek Nilai & Hadiah</a>
+                <a href="#" onclick="openMenuSection('fruit')">🍉 Aturan Fruit Merge</a>
+                <a href="#" onclick="openMenuSection('cook')">👨‍🍳 Aturan Let Him Cook</a>
+                <a href="#" onclick="openMenuSection('settings')">⚙️ Pengaturan UI</a>
+                <a href="#" onclick="triggerLogout()">Exit / Log Out 🚪</a>
+            </div>
+        </div>
+
+        <!-- AREA KONTEN UTAMA -->
+        <div class="main-container">
+            
+            <!-- TAB: DASHBOARD (Meme TikTok) -->
+            <div id="tab-dashboard" class="tab-content">
+                <div class="card">
+                    <h3>📺 Dashboard Utama: Tren Meme TikTok</h3>
+                    <p>Tonton kumpulan konten hiburan video terpopuler hari ini secara langsung:</p>
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: GRANDBOARD (Fitur Membuat Game & Avatar Sendiri) -->
+            <div id="tab-grandboard" class="tab-content hidden">
+                <div class="card">
+                    <h3>🛠️ Grandboard Engine <span class="system-badge">🛡️ Main Protect & Set Protectly Aktif</span></h3>
+                    <p>Gunakan panel di bawah untuk membangun Game, Kustomisasi Avatar, atau Membuat Passes secara instan.</p>
+                    
+                    <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; background: #fafafa;">
+                        <h4>Langkah 1: Pilih Akses Pembuatan (Making)</h4>
+                        <div class="creator-selects">
+                            <select id="making-select" onchange="updateMakingFlow()">
+                                <option value="">-- Pilih Aksi Titik Ke Bawah --</option>
+                                <option value="freegame">Making -> FreeGame (Bikin Game)</option>
+                                <option value="avatar">Making -> Avatar & Item pass</option>
+                                <option value="passes">Making -> Passes</option>
+                            </select>
+                        </div>
+
+                        <!-- Form Dinamis untuk Pembuatan Konten -->
+                        <div id="flow-freegame" class="hidden">
+                            <h5>1. Form Pembuatan FreeGame</h5>
+                            <p style="font-size:12px; color:#e67e22;">🛡️ Game Anda terlindungi secara penuh oleh sistem enkripsi internal.</p>
+                            <input type="text" id="game-title" placeholder="Nama Game Baru..." style="width:100%; margin-bottom:10px;"><br>
+                            <textarea id="game-script" placeholder="Tempel / Masukkan Script Game di sini..."></textarea><br>
+                            <button class="btn-action" onclick="publishGameStep1()">Publish Konten (Langkah 1B)</button>
+                        </div>
+
+                        <div id="flow-avatar" class="hidden">
+                            <h5>2. Pembuatan Avatar & Item Pass</h5>
+                            <input type="text" id="avatar-title" placeholder="Nama Kosmetik / Aksesoris Avatar..." style="width:100%; margin-bottom:10px;"><br>
+                            <select id="avatar-type" style="width:100%; margin-bottom:10px;">
+                                <option value="normal">Tipe: Normal Item</option>
+                                <option value="effect">Tipe: Ber-Effect Khusus</option>
+                            </select><br>
+                            <button class="btn-action" onclick="publishAvatarStep2()">Publish Itemframe (Langkah 2B)</button>
+                        </div>
+
+                        <div id="flow-passes" class="hidden">
+                            <h5>3. Pembuatan Sistem Passes Berhasil</h5>
+                            <p>Sistem otentikasi pembayaran pas masuk berhasil diproduksi. Selesai!</p>
+                        </div>
+                    </div>
+
+                    <!-- Langkah Lanjutan Sistem Grandpass -->
+                    <div id="grandpass-verification" class="card hidden" style="margin-top:20px; border-top: 3px solid var(--primary-color);">
+                        <h4>Langkah Akhir: Validasi Grandpass Konten</h4>
+                        <div id="grandpass-game-flow" class="hidden">
+                            <p><strong>Grandpass -> Content & Game</strong></p>
+                            <input type="text" id="game-security-key" placeholder="Masukkan Kunci Pengaman Game..." style="width:100%; margin-bottom:10px;">
+                            <button class="btn-action" style="background:var(--success-color);" onclick="finalizeGamePublish()">Ikuti Step & Publish Final 🚀</button>
+                        </div>
+                        <div id="grandpass-avatar-flow" class="hidden">
+                            <p><strong>Grandpass -> Itemframe Verification</strong></p>
+                            <button class="btn-action" style="background:var(--success-color);" onclick="finalizeAvatarPublish()">Jalankan Test & Publish Item 🛒</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: SHOP (Marketplace Keranjang Merah) -->
+            <div id="tab-shop" class="tab-content hidden">
+                <div class="card">
+                    <h3>🛒 Marketplace & Customize Avatar</h3>
+                    <p>Beli aset avatar buatan komunitas. Struktur harga diatur penjual, jenis mata uang dikunci otomatis oleh sistem berdasarkan efek item.</p>
+                    
+                    <div class="shop-tabs">
+                        <button class="nav-btn active" style="border-radius:4px;">Semua Produk</button>
+                        <button class="nav-btn" style="border-radius:4px;">Koleksi Saya</button>
+                    </div>
+
+                    <div class="market-grid" id="market-products">
+                        <!-- Produk Efek (Diamond) -->
+                        <div class="item-card">
+                            <div class="item-avatar">🔥🦊</div>
+                            <strong>Fox Mask Premium</strong>
+                            <div class="badge-effect">Mata Uang: Diamond (Sistem Effect)</div>
+                            <div class="price-tag">💎 150 Diamonds</div>
+                            <button class="nav-btn active" style="font-size:12px; width:100%;" onclick="alert('Aset berhasil dibeli!')">Beli Avatar</button>
+                        </div>
+                        <!-- Produk Normal (Koin/Poin) -->
+                        <div class="item-card">
+                            <div class="item-avatar">👑👓</div>
+                            <strong>Cyber Glasses</strong>
+                            <div class="badge-effect" style="background:#7f8c8d;">Mata Uang: Koin/Point (Normal)</div>
+                            <div class="price-tag">🪙 450 Points</div>
+                            <button class="nav-btn active" style="font-size:12px; width:100%;" onclick="alert('Aset berhasil dibeli!')">Beli Avatar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MENU POPUP SECTIONS (DARI TITIK TIGA) -->
+            <div id="menu-hadiah" class="card hidden">
+                <h3>🎁 ClayEvent.com — Cek Hadiah & Nilai</h3>
+                <input type="text" id="gift-code" placeholder="Masukkan kode keberuntungan..." style="width:70%; margin-right:10px;">
+                <button class="btn-action" onclick="checkGiftCode()">Cek Sekarang</button>
+                <p id="gift-status" style="font-weight:bold; margin-top:10px;"></p>
+            </div>
+
+            <div id="menu-fruit" class="card hidden">
+                <h3>🍉 Aturan Game Fruit Merge</h3>
+                <p>Evolusi: 🍓 → 🫐 → 🥝 → 🍎 → 🥭 → 🍍 → 🍈 → 🍉</p>
+                <ul>
+                    <li>Gabungkan dua buah identik untuk berevolusi menjadi ukuran tingkat berikutnya.</li>
+                    <li>Raih buah Semangka Raksasa untuk skor tertinggi tanpa meluber ke garis batas atas!</li>
+                </ul>
+            </div>
+
+            <div id="menu-cook" class="card hidden">
+                <h3>👨‍🍳 Aturan Game Let Him Cook</h3>
+                <ul>
+                    <li>Racik potongan sayur, bumbu, dan daging sesuai antrean waktu pemesanan pelanggan.</li>
+                    <li>Jaga jarum matang tetap di area hijau agar makanan tidak gosong dan nyawa tidak hilang.</li>
+                </ul>
+            </div>
+
+            <div id="menu-settings" class="card hidden">
+                <h3>⚙️ Panel Konfigurasi UI</h3>
+                <div class="setting-row">
+                    <label>Frame Rate (FPS Limit):</label>
+                    <select id="fps-val"><option value="60">60 FPS Smooth</option><option value="30">30 FPS Power Save</option></select>
+                </div>
+                <div class="setting-row">
+                    <label>Rendering Mode:</label>
+                    <select id="ui-val"><option value="auto">Auto-Detect</option><option value="manual">Manual Adjust</option></select>
+                </div>
+                <div class="setting-row">
+                    <label>Kualitas Visual Global:</label>
+                    <select id="quality-val"><option value="high">High End Engine</option><option value="low">Low Spec Boost</option></select>
+                </div>
+                <button class="btn-action" style="background:var(--success-color);" onclick="alert('Pengaturan grafik disimpan!')">Simpan Perubahan</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const allowedKeys = ["ADMIN-SUPER-2026", "TEMAN-AKSES-V1P", "MEMBER-SETIA-OK"];
+
+        window.onload = function() {
+            const cacheKey = localStorage.getItem("user_access_secure_token");
+            if (cacheKey && allowedKeys.includes(cacheKey)) {
+                grantEntrance(cacheKey);
+            }
+        };
+
+        function checkAccess() {
+            const pwd = document.getElementById("access-password").value.trim();
+            if (allowedKeys.includes(pwd)) {
+                localStorage.setItem("user_access_secure_token", pwd);
+                grantEntrance(pwd);
+            } else {
+                alert("❌ Akses Ditolak: Kunci yang Anda masukkan salah atau tidak diizinkan!");
+            }
+        }
+
+        function grantEntrance(keyToken) {
+            document.getElementById("login-screen").classList.add("hidden");
+            document.getElementById("app-screen").classList.remove("hidden");
+            document.getElementById("user-profile").innerText = keyToken.charAt(0);
+        }
+
+        function triggerLogout() {
+            localStorage.removeItem("user_access_secure_token");
+            location.reload();
+        }
+
+        function toggleDropdown() {
+            const drop = document.getElementById("action-dropdown");
+            drop.style.display = (drop.style.display === "block") ? "none" : "block";
+        }
+
+        function switchTab(targetTab) {
+            // Sembunyikan semua tab dasar & menu popup
+            const tabs = ['dashboard', 'grandboard', 'shop'];
+            tabs.forEach(t => document.getElementById('tab-' + t).classList.add('hidden'));
+            
+            const popups = ['hadiah', 'fruit', 'cook', 'settings'];
+            popups.forEach(p => document.getElementById('menu-' + p).classList.add('hidden'));
+
+            // Reset class active tombol navbar
+            document.getElementById('btn-dash').classList.remove('active');
+            document.getElementById('btn-grand').classList.remove('active');
+
+            if(targetTab === 'dashboard') document.getElementById('btn-dash').classList.add('active');
+            if(targetTab === 'grandboard') document.getElementById('btn-grand').classList.add('active');
+
+            document.getElementById('tab-' + targetTab).classList.remove('hidden');
+        }
+
+        function openMenuSection(popupId) {
+            // Sembunyikan semua tab dasar
+            const tabs = ['dashboard', 'grandboard', 'shop'];
+            tabs.forEach(t => document.getElementById('tab-' + t).classList.add('hidden'));
+
+            const popups = ['hadiah', 'fruit', 'cook', 'settings'];
+            popups.forEach(p => document.getElementById('menu-' + p).classList.add('hidden'));
+
+            document.getElementById('menu-' + popupId).classList.remove('hidden');
+            document.getElementById("action-dropdown").style.display = "none";
+        }
+
+        function updateMakingFlow() {
+            const selectVal = document.getElementById("making-select").value;
+            document.getElementById("flow-freegame").classList.add("hidden");
+            document.getElementById("flow-avatar").classList.add("hidden");
+            document.getElementById("flow-passes").classList.add("hidden");
+            document.getElementById("grandpass-verification").classList.add("hidden");
+
+            if (selectVal === "freegame") document.getElementById("flow-freegame").classList.remove("hidden");
+            if (selectVal === "avatar") document.getElementById("flow-avatar").classList.remove("hidden");
+            if (selectVal === "passes") document.getElementById("flow-passes").classList.remove("hidden");
+        }
+
+        function publishGameStep1() {
+            const scriptVal = document.getElementById("game-script").value.trim();
+            if(!scriptVal) { alert("Masukkan script game terlebih dahulu!"); return; }
+            alert("Langkah 1B Berhasil: Script Game Dikunci oleh Main Protect. Mengalihkan ke Grandpass...");
+            document.getElementById("grandpass-verification").classList.remove("hidden");
+            document.getElementById("grandpass-game-flow").classList.remove("hidden");
+            document.getElementById("grandpass-avatar-flow").classList.add("hidden");
+        }
+
+        function publishAvatarStep2() {
+            const titleVal = document.getElementById("avatar-title").value.trim();
+            if(!titleVal) { alert("Nama aksesoris avatar tidak boleh kosong!"); return; }
+            alert("Langkah 2B Berhasil: Itemframe Terbuat. Mengalihkan ke Validasi Test...");
+            document.getElementById("grandpass-verification").classList.remove("hidden");
+            document.getElementById("grandpass-avatar-flow").classList.remove("hidden");
+            document.getElementById("grandpass-game-flow").classList.add("hidden");
+        }
+
+        function finalizeGamePublish() {
+            const key = document.getElementById("game-security-key").value;
+            if(!key) { alert("Masukkan kunci pengaman final!"); return; }
+            alert("Sistem Terlindungi (Set Protectly): Game berhasil dipublish secara resmi ke Grandboard! 🎉");
+            switchTab('dashboard');
+        }
+
+        function finalizeAvatarPublish() {
+            alert("Uji Kelayakan Test Sukses! Item Avatar Anda resmi diterbitkan ke Keranjang Merah Marketplace! 🛒");
+            switchTab('shop');
+        }
+
+        function checkGiftCode() {
+            const code = document.getElementById("gift-code").value.trim();
+            const res = document.getElementById("gift-status");
+            if(!code) { res.innerText = "Masukkan kode!"; return; }
+            res.innerHTML = "Status Keberuntungan: <span style='color:var(--success-color);'>Hadiah Diamond Kategori Efek Berhasil Diklaim!</span>";
+        }
+
+        window.onclick = function(e) {
+            if (!e.target.matches('.menu-dot')) {
+                const d = document.getElementById("action-dropdown");
+                if (d && d.style.display === "block") d.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
